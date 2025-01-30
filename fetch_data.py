@@ -12,10 +12,8 @@ app = Flask(__name__)
 
 def fetch_data_from_supabase(query, filters):
     try:
-        # Start by querying the "Real Estate Listing" table
         response = supabase.table("Real Estate Listing")
 
-        # Apply filters dynamically based on the request
         if 'bedrooms' in filters:
             response = response.select("*").eq("Bedrooms", filters['bedrooms'])
 
@@ -64,10 +62,10 @@ def fetch_data_from_supabase(query, filters):
         if 'moving_date' in filters:
             response = response.eq("Moving Date", filters['moving_date'])
 
-        # Execute the query and fetch the result
         result = response.execute()
 
-        # Access the 'data' attribute correctly
+        print(f"Filters applied: {filters}")
+        
         if result.data:
             return result.data
         else:

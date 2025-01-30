@@ -15,7 +15,7 @@ def fetch_data_from_supabase(query, filters):
         response = supabase.table("Real Estate Listing")
 
         if 'bedrooms' in filters:
-            response = response.select("*").eq("Bedrooms", filters['bedrooms'])
+            response = response.eq("Bedrooms", filters['bedrooms'])
 
         if 'bathrooms' in filters:
             response = response.eq("Bathrooms", filters['bathrooms'])
@@ -65,7 +65,7 @@ def fetch_data_from_supabase(query, filters):
         result = response.execute()
 
         print(f"Filters applied: {filters}")
-        
+
         if result.data:
             return result.data
         else:

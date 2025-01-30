@@ -1,60 +1,65 @@
 from client import supabase
 
+from client import supabase
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
 def fetch_data_from_supabase(query, filters):
     try:
-        # Initialize the query to search in the "Real Estate Listing" table
+        # Start by querying the "Real Estate Listing" table
         response = supabase.table("Real Estate Listing")
 
         # Apply filters dynamically based on the request
         if 'bedrooms' in filters:
-            response = response.filter('Bedrooms', 'eq', filters['bedrooms'])
-        
+            response = response.select("*").eq("Bedrooms", filters['bedrooms'])
+
         if 'bathrooms' in filters:
-            response = response.filter('Bathrooms', 'eq', filters['bathrooms'])
+            response = response.eq("Bathrooms", filters['bathrooms'])
 
         if 'kitchen' in filters:
-            response = response.filter('Kitchen', 'eq', filters['kitchen'])
+            response = response.eq("Kitchen", filters['kitchen'])
 
         if 'hall' in filters:
-            response = response.filter('Hall', 'eq', filters['hall'])
+            response = response.eq("Hall", filters['hall'])
 
         if 'parking_available' in filters:
-            response = response.filter('Parking Available', 'eq', filters['parking_available'])
+            response = response.eq("Parking Available", filters['parking_available'])
 
         if 'balcony' in filters:
-            response = response.filter('Balcony', 'eq', filters['balcony'])
+            response = response.eq("Balcony", filters['balcony'])
 
         if 'furnished' in filters:
-            response = response.filter('Furnished', 'eq', filters['furnished'])
+            response = response.eq("Furnished", filters['furnished'])
 
         if 'swimming_pool' in filters:
-            response = response.filter('Swimming Pool', 'eq', filters['swimming_pool'])
+            response = response.eq("Swimming Pool", filters['swimming_pool'])
 
         if 'number_of_parking_spaces' in filters:
-            response = response.filter('Number of Parking Spaces', 'eq', filters['number_of_parking_spaces'])
+            response = response.eq("Number of Parking Spaces", filters['number_of_parking_spaces'])
 
         if 'garden' in filters:
-            response = response.filter('Garden', 'eq', filters['garden'])
+            response = response.eq("Garden", filters['garden'])
 
         if 'gym_facility' in filters:
-            response = response.filter('Gym Facility', 'eq', filters['gym_facility'])
+            response = response.eq("Gym Facility", filters['gym_facility'])
 
         if 'year_built' in filters:
-            response = response.filter('Year Built', 'eq', filters['year_built'])
+            response = response.eq("Year Built", filters['year_built'])
 
         if 'rent_min' in filters:
-            response = response.filter('Rent per month (in USD)', 'gte', filters['rent_min'])
+            response = response.gte("Rent per month (in USD)", filters['rent_min'])
         
         if 'rent_max' in filters:
-            response = response.filter('Rent per month (in USD)', 'lte', filters['rent_max'])
+            response = response.lte("Rent per month (in USD)", filters['rent_max'])
         
         if 'location' in filters:
-            response = response.filter('Address', 'ilike', f"%{filters['location']}%")
+            response = response.ilike("Address", f"%{filters['location']}%")
         
         if 'moving_date' in filters:
-            response = response.filter('Moving Date', 'eq', filters['moving_date'])
+            response = response.eq("Moving Date", filters['moving_date'])
 
-        # Execute the query and return the result
+        # Execute the query and fetch the result
         result = response.execute()
 
         if result['data']:
@@ -64,3 +69,20 @@ def fetch_data_from_supabase(query, filters):
     
     except Exception as error:
         return [{"message": f"Error fetching data: {error}"}]
+
+@app.route("/retell", methods=["POST"])
+def retell_custom_function():
+    data = request.get_json()
+    query = data.get("query")
+    filters = data.get("filters", {})
+
+    if not query:
+        return jsonify({"error": "Query is required"}), 400
+
+    # Fetch data from Supabase using the filters provided in the request
+    response = fetch_data_from_supabase(query, filters)
+    
+    return jsonify({"result": response})
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)

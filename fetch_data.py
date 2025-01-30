@@ -5,6 +5,11 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+from client import supabase
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
 def fetch_data_from_supabase(query, filters):
     try:
         # Start by querying the "Real Estate Listing" table
@@ -62,27 +67,11 @@ def fetch_data_from_supabase(query, filters):
         # Execute the query and fetch the result
         result = response.execute()
 
-        if result['data']:
-            return result['data']
+        # Access the 'data' attribute correctly
+        if result.data:
+            return result.data
         else:
             return [{"message": "No relevant data found."}]
     
     except Exception as error:
         return [{"message": f"Error fetching data: {error}"}]
-
-@app.route("/retell", methods=["POST"])
-def retell_custom_function():
-    data = request.get_json()
-    query = data.get("query")
-    filters = data.get("filters", {})
-
-    if not query:
-        return jsonify({"error": "Query is required"}), 400
-
-    # Fetch data from Supabase using the filters provided in the request
-    response = fetch_data_from_supabase(query, filters)
-    
-    return jsonify({"result": response})
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)

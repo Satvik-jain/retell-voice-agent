@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/retell", methods=["POST"])
 def retell_custom_function():
     data = request.get_json()
-    
+    print(f"Received data: {data}")  # This will show in Render logs
     # Check if query is part of the incoming JSON
     if not data or "query" not in data:
         return jsonify({"error": "Query is required"}), 400

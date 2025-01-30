@@ -3,7 +3,7 @@ from client import supabase
 def fetch_data_from_supabase(query):
     try:
         response = supabase.table("Real Estate Listing")  
-        result = response.select("*").ilike("column_name", f"%{query}%").execute()
+        result = response.select("*").ilike("Address", f"%{query}%").execute()
 
         if result['data']:
             return result['data']

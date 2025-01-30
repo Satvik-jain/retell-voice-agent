@@ -12,10 +12,10 @@ app = Flask(__name__)
 
 def fetch_data_from_supabase(query, filters):
     try:
-        response = supabase.table("Real Estate Listing")
+        response = supabase.table("Real Estate Listing").select("*")
 
         if 'bedrooms' in filters:
-            response = response.select("*").eq("Bedrooms", filters['bedrooms'])
+            response = response.eq("Bedrooms", filters['bedrooms'])
 
         if 'bathrooms' in filters:
             response = response.eq("Bathrooms", filters['bathrooms'])

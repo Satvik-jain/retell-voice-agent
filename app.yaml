@@ -1,7 +1,0 @@
-runtime: python39
-
-env_variables:
-  SUPABASE_URL: "https://vmlobhapeligtemjnuyo.supabase.co"
-  SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtbG9iaGFwZWxpZ3RlbWpudXlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyMTM1MDMsImV4cCI6MjA1Mzc4OTUwM30.yQW-HZLbsAh8KW1GGMLzfDWlWoLUNgmSV0Rhridhotc"
-  
-entrypoint: gunicorn -b :$PORT app:app

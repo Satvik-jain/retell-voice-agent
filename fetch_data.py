@@ -61,8 +61,8 @@ def fetch_data_from_supabase(query, filters):
         
         if 'moving_date' in filters:
             response = response.eq("Moving Date", filters['moving_date'])
-        print(f"Query URL: {response.url}")
-        print(f"Applied filters: {filters}")
+        # print(f"Query URL: {response.url}")
+        # print(f"Applied filters: {filters}")
         result = response.execute()
 
         print(f"Filters applied: {filters}")

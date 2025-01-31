@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-def fetch_data_from_supabase(query, filters):
+def fetch_data_from_supabase(filters):
     try:
         response = supabase.table("Real Estate Listing").select("*")
 

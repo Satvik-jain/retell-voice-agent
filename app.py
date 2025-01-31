@@ -27,13 +27,13 @@ app = Flask(__name__)
 @app.route("/retell", methods=["POST"])
 def retell_custom_function():
     data = request.get_json()
-    query = data.get("query")
-    filters = data.get("filters", {})
+    # query = data.get("query")
+    # filters = data.get("filters", {})
 
     # if not query:
     #     return jsonify({"error": "Query is required"}), 400
 
-    response = fetch_data_from_supabase(query, filters)
+    response = fetch_data_from_supabase(data)
     
     return jsonify({"result": response})
 

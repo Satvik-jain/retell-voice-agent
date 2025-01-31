@@ -27,6 +27,7 @@ app = Flask(__name__)
 @app.route("/retell", methods=["POST"])
 def retell_custom_function():
     data = request.get_json()
+    print(data)
     args = data.get("args", {})
     # query = data.get("query")
     # filters = data.get("filters", {})

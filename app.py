@@ -30,10 +30,9 @@ def retell_custom_function():
     query = data.get("query")
     filters = data.get("filters", {})
 
-    if not query:
-        return jsonify({"error": "Query is required"}), 400
+    # if not query:
+    #     return jsonify({"error": "Query is required"}), 400
 
-    # Fetch data from Supabase using the filters provided in the request
     response = fetch_data_from_supabase(query, filters)
     
     return jsonify({"result": response})

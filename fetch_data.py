@@ -56,8 +56,17 @@ def fetch_data_from_supabase(query, filters):
         if 'rent_max' in filters:
             response = response.lte("Rent per month (in USD)", filters['rent_max'])
         
-        if 'location' in filters:
-            response = response.ilike("Address", f"%{filters['location']}%")
+        if 'street_address' in filters:
+            response = response.ilike("Street Address", f"%{filters['street_address']}%")
+
+        if 'city' in filters:
+            response = response.eq("City", filters['city'])
+
+        if 'province' in filters:
+            response = response.eq("Province", filters['province'])
+
+        if 'country' in filters:
+            response = response.eq("Country", filters['country'])
         
         if 'moving_date' in filters:
             response = response.eq("Moving Date", filters['moving_date'])
